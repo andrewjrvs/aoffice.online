@@ -12,8 +12,12 @@ export class AppRoot {
   @State()
   private username: string;
 
+  @State()
+  private displayName: string;
+
   constructor() {
-    fetch('/.auth/me').then((d) => d.json()).then(d => this.username = d?.clientPrincipal?.userDetails)
+    fetch('/.auth/me').then((d) => d.json()).then(d => this.username = d?.clientPrincipal?.userDetails);
+    fetch('/api/user').then((d) => d.json()).then(d => this.displayName = `${(d?.givenName || '' )} ${d?.surName || ''}`);
   }
 
   render() {
@@ -21,7 +25,7 @@ export class AppRoot {
       <div>
         <header>
           <h1>A Office Online</h1>
-          {this.username ? <p>Welcome: {this.username}</p> : <p><stencil-route-link url="/login" exact={true}>Login</stencil-route-link></p>}
+          {this.displayName || this.username ? <p>Welcome: {this.displayName || this.username}</p> : <p><stencil-route-link url="/login" exact={true}>Login</stencil-route-link></p>}
         </header>
 
         <main>
