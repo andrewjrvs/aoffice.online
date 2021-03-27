@@ -1,14 +1,9 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.163.1/containers/typescript-node
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.163.1/containers/azure-static-web-apps
 {
-	"name": "Node.js & TypeScript",
-	"build": {
-		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick a Node version: 10, 12, 14
-		"args": { 
-			"VARIANT": "14"
-		}
-	},
+	"name": "Azure Static Web Apps",
+	"dockerFile": "Dockerfile",
+	"forwardPorts": [ 7071, 5500 ],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
@@ -17,17 +12,17 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"dbaeumer.vscode-eslint",
+		"ms-azuretools.vscode-azurefunctions",
 		"ms-azuretools.vscode-azurestaticwebapps",
-		"ms-vscode.azure-account"
+		"ms-dotnettools.csharp",
+		"ms-python.python",
+		"dbaeumer.vscode-eslint",
+		"ritwickdey.liveserver"
 	],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "yarn install",
+	"postCreateCommand": ". ${NVM_DIR}/nvm.sh && nvm install --lts",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	"remoteUser": "node"
+	"remoteUser": "vscode"
 }
