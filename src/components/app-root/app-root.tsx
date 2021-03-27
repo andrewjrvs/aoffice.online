@@ -1,4 +1,4 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, State } from '@stencil/core';
 
 
 @Component({
@@ -8,11 +8,20 @@ import { Component, h } from '@stencil/core';
 })
 export class AppRoot {
 
+
+  @State()
+  private username: string;
+
+  constructor() {
+    fetch('/.auth/me').then((d) => d.json()).then(d => this.username = d?.clientPrincipal?.userDetails)
+  }
+
   render() {
     return (
       <div>
         <header>
           <h1>A Office Online</h1>
+          {this.username ? <p>Welcome: {this.username}</p> : <p><a href="/.auth/login/github">Login</a></p>}
         </header>
 
         <main>
