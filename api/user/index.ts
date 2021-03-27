@@ -10,7 +10,15 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
 
     // get user details from database
-    context.res = getUserAccountByAuth(auth);
+    const rtnData = await getUserAccountByAuth(auth);
+    context.res = {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      status: 200,
+      body: rtnData,
+      isRaw: true,
+    };
 };
 
 export default httpTrigger;
