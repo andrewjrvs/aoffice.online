@@ -18,9 +18,14 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const encoded = Buffer.from(header, "base64");
     const decoded = encoded.toString("ascii");
   
+    const headerID = req.headers["x-ms-client-principal-id"];
+    const headerName = req.headers["x-ms-client-principal-name"];
+
     context.res = {
       body: {
         clientPrincipal: JSON.parse(decoded)
+        , id: headerID
+        , name: headerName
       }
     };
 

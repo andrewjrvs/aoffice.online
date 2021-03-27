@@ -21,13 +21,14 @@ export class AppRoot {
       <div>
         <header>
           <h1>A Office Online</h1>
-          {this.username ? <p>Welcome: {this.username}</p> : <p><a href="/.auth/login/github">Login</a></p>}
+          {this.username ? <p>Welcome: {this.username}</p> : <p><stencil-route-link url="/login" exact={true}>Login</stencil-route-link></p>}
         </header>
 
         <main>
           <stencil-router>
             <stencil-route-switch scrollTopOffset={0}>
               <stencil-route url='/' component='app-home' exact={true} />
+              <stencil-route url='/login' component='app-login' exact={true} />
             </stencil-route-switch>
           </stencil-router>
         </main>
