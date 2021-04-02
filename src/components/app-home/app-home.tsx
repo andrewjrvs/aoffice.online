@@ -14,6 +14,10 @@ export class AppHome {
         <p>
          This is a test page.
         </p>
+        <pre>
+          userHasRole { userHasRole(store.state.user, 'oa_admin') ? 'true' : 'false' }<br />
+          userRoles: {store.state.user.roles && store.state.user.roles.join(', ')}
+        </pre>
         <ul>
         { userHasRole(store.state.user, 'oa_admin') ? <li><stencil-route-link url="/users" exact={true}>Manage Users</stencil-route-link></li> : ''}
         </ul>
