@@ -11,6 +11,7 @@ export class AppRoot {
 
 
   constructor() {
+    // start by trying to get the user account right off...
     fetch('/api/user').then((d) => d.json()).then(d =>  store.state.user = d);
     
   }

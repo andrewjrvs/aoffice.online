@@ -19,7 +19,9 @@ export class AppHome {
           userRoles: { store?.state?.user?.roles && store.state.user.roles.join(', ')}
         </pre>
         <ul>
-        { userHasRole(store.state.user, 'oa_admin') ? <li><stencil-route-link url="/users" exact={true}>Manage Users</stencil-route-link></li> : ''}
+          <li><stencil-route-link url="home">Head home</stencil-route-link></li>
+          { userHasRole(store.state.user, 'oa_admin') ? <li><stencil-route-link url="/users">Manage Users</stencil-route-link></li> : ''}
+          <li><stencil-route-link url="login">login page</stencil-route-link></li>
         </ul>
         {/* <stencil-route-link url='/profile/stencil'>
           <button>
