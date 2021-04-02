@@ -1,5 +1,5 @@
-export interface Identity {
-    givenName: string;
-    surName: string;
+import { Person } from './person';
+export interface Identity extends Person  {
+    _id: string;
     access_from: any[];
 }

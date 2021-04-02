@@ -1,5 +1,6 @@
-import { Component, h, State } from '@stencil/core';
-
+import { Component, h } from '@stencil/core';
+import { RestrictedRoute } from '../restricted-route';
+import store from '../../utils/auth-store';
 
 @Component({
   tag: 'app-root',
@@ -9,23 +10,16 @@ import { Component, h, State } from '@stencil/core';
 export class AppRoot {
 
 
-  @State()
-  private username: string;
-
-  @State()
-  private displayName: string;
-
   constructor() {
-    fetch('/.auth/me').then((d) => d.json()).then(d => this.username = d?.clientPrincipal?.userDetails);
-    fetch('/api/user').then((d) => d.json()).then(d => this.displayName = `${(d?.givenName || '' )} ${d?.surName || ''}`);
+    fetch('/api/user').then((d) => d.json()).then(d =>  store.state.user = d);
   }
 
   render() {
     return (
       <div>
         <header>
-          <h1>A Office Online</h1>
-          {this.displayName || this.username ? <p>Welcome: {this.displayName || this.username}</p> : <p><stencil-route-link url="/login" exact={true}>Login</stencil-route-link></p>}
+          <h1><stencil-route-link url="/" exact={true}>A Office Online</stencil-route-link></h1>
+          {store.state.isAuthenticated ? <p>Welcome: {store.state.user.name}</p> : <p><stencil-route-link url="/login" exact={true}>Login</stencil-route-link></p>}
         </header>
 
         <main>
@@ -33,6 +27,7 @@ export class AppRoot {
             <stencil-route-switch scrollTopOffset={0}>
               <stencil-route url='/' component='app-home' exact={true} />
               <stencil-route url='/login' component='app-login' exact={true} />
+              <RestrictedRoute url='/users' oa_role='user_admin' component='app-users-list' exact={true} />
             </stencil-route-switch>
           </stencil-router>
         </main>
