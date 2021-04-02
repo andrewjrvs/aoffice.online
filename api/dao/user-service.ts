@@ -12,8 +12,6 @@ export async function getUserAccountByAuth(passed_auth: auth): Promise<Identity>
         user = await collection.findOne(query);
         if (user) {
             user = cleanUpDBUser(user);
-            console.log(user);
-            console.log(passed_auth.userRoles);
             // attach roles
             (user.roles = user.roles || []).push(...passed_auth.userRoles);
         }
@@ -22,6 +20,24 @@ export async function getUserAccountByAuth(passed_auth: auth): Promise<Identity>
         client.close();
     }
     return user;
+}
+
+export async function getUsers(filter: any): Promise<Identity[]> {
+    const query: {[key: string]: any} = {};
+    const [collection, client] = await getCollection('access', 'users');
+    let users: Identity[] = null;
+    try {
+        users = await collection.find(query).toArray();
+        if (users) {
+            users = users.map(cleanUpDBUser);
+        } else {
+            users = [];
+        }
+        
+    } finally {
+        client.close();
+    }
+    return users;
 }
 
 function cleanUpDBUser(user: Identity): Identity {
