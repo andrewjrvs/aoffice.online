@@ -15,12 +15,12 @@ export class AppHome {
          This is a test page.
         </p>
         <pre>
-          userHasRole { userHasRole(store.state.user, 'oa_admin') ? 'true' : 'false' }<br />
+          userHasRole { userHasRole(store.state.user, 'ao_admin') ? 'true' : 'false' }<br />
           userRoles: { store?.state?.user?.roles && store.state.user.roles.join(', ')}
         </pre>
         <ul>
           <li><stencil-route-link url="home">Head home</stencil-route-link></li>
-          { userHasRole(store.state.user, 'oa_admin') ? <li><stencil-route-link url="/users">Manage Users</stencil-route-link></li> : ''}
+          { userHasRole(store.state.user, 'ao_admin') ? <li><stencil-route-link url="/users">Manage Users</stencil-route-link></li> : ''}
           <li><stencil-route-link url="login">login page</stencil-route-link></li>
         </ul>
         {/* <stencil-route-link url='/profile/stencil'>

@@ -1,4 +1,5 @@
 import { Context, HttpRequest } from "@azure/functions"
+import { Identity } from "../models/identity";
 
 export interface auth {
     identityProvider: string;
@@ -37,4 +38,13 @@ export function FailDueToAuth(context: Context): void {
         isRaw: true,
         };
     context.done();
+}
+
+export function authHasRole(user: auth, roles: string | string[]): boolean {
+    if (!user) {
+        return false;
+    }
+    // if its an array, are there any that arn't included on the user, if not, is the passed role included...
+    return Array.isArray(roles) ? !roles.some(v => !user.userRoles.includes(v)) : user.userRoles.includes(roles as string);
+
 }
