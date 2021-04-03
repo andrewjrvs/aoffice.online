@@ -12,7 +12,7 @@ export class AppRoot {
 
   constructor() {
     // start by trying to get the user account right off...
-    fetch('/api/user').then((d) => d.json()).then(d =>  store.state.user = d);
+    fetch('/api/user').then((d) => d.json()).then(d =>  store.state.user = d).catch(_ => store.state.user = null);
     
   }
 
@@ -41,6 +41,7 @@ export class AppRoot {
             <stencil-route-switch scrollTopOffset={0}>
               <stencil-route url={['/', 'home']} component='app-home' exact={true} />
               <stencil-route url='/login' component='app-login' />
+              <RestrictedRoute url='/users/:userId' oa_role='user_admin' component='app-users-edit' />
               <RestrictedRoute url='/users' oa_role='user_admin' component='app-users-list' />
             </stencil-route-switch>
           </stencil-router>

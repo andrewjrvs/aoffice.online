@@ -5,6 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { MatchResults, RouterHistory } from "@stencil/router";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 export namespace Components {
     interface AppHome {
@@ -12,6 +13,10 @@ export namespace Components {
     interface AppLogin {
     }
     interface AppRoot {
+    }
+    interface AppUsersEdit {
+        "history": RouterHistory;
+        "match": MatchResults;
     }
     interface AppUsersList {
     }
@@ -38,6 +43,12 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
+    interface HTMLAppUsersEditElement extends Components.AppUsersEdit, HTMLStencilElement {
+    }
+    var HTMLAppUsersEditElement: {
+        prototype: HTMLAppUsersEditElement;
+        new (): HTMLAppUsersEditElement;
+    };
     interface HTMLAppUsersListElement extends Components.AppUsersList, HTMLStencilElement {
     }
     var HTMLAppUsersListElement: {
@@ -54,6 +65,7 @@ declare global {
         "app-home": HTMLAppHomeElement;
         "app-login": HTMLAppLoginElement;
         "app-root": HTMLAppRootElement;
+        "app-users-edit": HTMLAppUsersEditElement;
         "app-users-list": HTMLAppUsersListElement;
         "fa-i": HTMLFaIElement;
     }
@@ -65,6 +77,10 @@ declare namespace LocalJSX {
     }
     interface AppRoot {
     }
+    interface AppUsersEdit {
+        "history"?: RouterHistory;
+        "match"?: MatchResults;
+    }
     interface AppUsersList {
     }
     interface FaI {
@@ -74,6 +90,7 @@ declare namespace LocalJSX {
         "app-home": AppHome;
         "app-login": AppLogin;
         "app-root": AppRoot;
+        "app-users-edit": AppUsersEdit;
         "app-users-list": AppUsersList;
         "fa-i": FaI;
     }
@@ -85,6 +102,7 @@ declare module "@stencil/core" {
             "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
             "app-login": LocalJSX.AppLogin & JSXBase.HTMLAttributes<HTMLAppLoginElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "app-users-edit": LocalJSX.AppUsersEdit & JSXBase.HTMLAttributes<HTMLAppUsersEditElement>;
             "app-users-list": LocalJSX.AppUsersList & JSXBase.HTMLAttributes<HTMLAppUsersListElement>;
             "fa-i": LocalJSX.FaI & JSXBase.HTMLAttributes<HTMLFaIElement>;
         }

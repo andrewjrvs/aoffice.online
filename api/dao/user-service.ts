@@ -2,7 +2,7 @@ import { Identity } from '../models/identity';
 import { getCollection } from '../utils/my-mongo';
 import { auth } from '../utils/validate-auth';
 import { buildFullName } from '../utils/identity-utils';
-
+import { ObjectID } from 'mongodb';
 
 export async function getUserAccountByAuth(passed_auth: auth): Promise<Identity> {
     const query: {[key: string]: any} = {access_from: {$elemMatch: {provider: passed_auth.identityProvider, userId:passed_auth.userId}}};
@@ -22,7 +22,25 @@ export async function getUserAccountByAuth(passed_auth: auth): Promise<Identity>
     return user;
 }
 
-export async function getUsers(filter: any): Promise<Identity[]> {
+export async function getUserById(id: string): Promise<Identity> {
+    const o_id = new ObjectID(id);
+    const query: {[key: string]: any} = {_id: o_id};
+    let user: Identity = null;
+    const [collection, client] = await getCollection('access', 'users');
+    try {
+        user = await collection.findOne(query);
+        if (user) {
+            user = cleanUpDBUser(user);
+        }
+        
+    } finally {
+        client.close();
+    }
+    return user;
+}
+
+
+export async function getUsers(filter: any = null): Promise<Identity[]> {
     const query: {[key: string]: any} = {};
     const [collection, client] = await getCollection('access', 'users');
     let users: Identity[] = null;

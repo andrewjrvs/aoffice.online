@@ -1,4 +1,7 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, Host, h, State } from '@stencil/core';
+import { Person } from '../../../api/models/person';
+import { getUsers } from '../../utils/person-service';
+
 
 @Component({
   tag: 'app-users-list',
@@ -7,11 +10,24 @@ import { Component, Host, h } from '@stencil/core';
 })
 export class AppUsersList {
 
+  @State() public usersList: Person[] = null;
+
+  constructor() {
+    getUsers().then(d => this.usersList = d).catch(_ => console.error(_));
+  }
+
   render() {
+    const lst = this.usersList || [];
+    console.log(lst);
     return (
       <Host>
-        userList
-        <slot></slot>
+        <h1>Users Admin</h1>
+        <ul>
+          {lst.map((v) =>
+            <li>{ v.name } {v?.roles.map(rl => <span class="role">{rl}</span>)} <stencil-route-link url={`/users/${v._id}`}>edit</stencil-route-link></li>
+          )}
+        </ul>
+        
       </Host>
     );
   }

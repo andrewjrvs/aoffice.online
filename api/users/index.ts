@@ -1,5 +1,6 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
-import { getUsers } from "../dao/user-service";
+import { getUserById, getUsers } from "../dao/user-service";
+import { Identity } from "../models/identity";
 import { authHasRole, FailDueToAuth, ValidateAuth } from "../utils/validate-auth";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
@@ -9,7 +10,15 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       return;
     }
 
-    const rtnData = await getUsers(auth);
+    let rtnData: Identity | Identity[] = null;
+    const id = context.bindingData.id ? String(context.bindingData.id) : null;
+
+    if (id) {
+      rtnData = await getUserById(id);
+    } else {
+      rtnData = await getUsers();
+    }
+        
     context.res = {
       headers: {
           'Content-Type': 'application/json'
