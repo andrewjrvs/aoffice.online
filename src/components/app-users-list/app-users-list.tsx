@@ -18,16 +18,16 @@ export class AppUsersList {
 
   render() {
     const lst = this.usersList || [];
-    console.log(lst);
+    
     return (
       <Host>
         <h1>Users Admin</h1>
         <ul>
           {lst.map((v) =>
-            <li>{ v.name } {v?.roles.map(rl => <span class="role">{rl}</span>)} <stencil-route-link url={`/users/${v._id}`}>edit</stencil-route-link></li>
+            <li>{ v.name } {v?.roles?.map(rl => <span class="role">{rl}</span>)} <stencil-route-link url={`/users/${v._id}`}>edit</stencil-route-link></li>
           )}
         </ul>
-        
+        <stencil-route-link url={`/users/new`}>Add new user</stencil-route-link>
       </Host>
     );
   }

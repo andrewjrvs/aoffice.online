@@ -33,18 +33,28 @@ export function FailDueToAuth(context: Context): void {
         headers: {
             'Content-Type': 'application/json'
         },
-        status: 400,
+        status: 401,
         body: null,
         isRaw: true,
         };
     context.done();
 }
 
-export function authHasRole(user: auth, roles: string | string[]): boolean {
+/**
+ * Does the user have this role / roles?
+ * @param user user to check
+ * @param roles roles we want to fine
+ * @param includeAll must include ALL passed roles (vs just one...)
+ * @returns 
+ */
+export function authHasRole(user: auth, roles: string | string[], includeAll: boolean = false): boolean {
     if (!user) {
         return false;
     }
-    // if its an array, are there any that arn't included on the user, if not, is the passed role included...
-    return Array.isArray(roles) ? !roles.some(v => !user.userRoles.includes(v)) : user.userRoles.includes(roles as string);
-
+    const listToCheck = Array.isArray(roles) ? roles : [roles];
+    
+    // are ANY of these matching?
+    // if ALL flag, check if there are any NOT matching, 
+    // if not, check if ONE matches...
+    return includeAll ? !listToCheck.some(v => !user.userRoles.includes(v)) : listToCheck.some(v => user.userRoles.includes(v));
 }

@@ -6,11 +6,10 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get"
-        , "post"
+        "put"
         , "delete"
       ]
-      , "route": "users/{id?}"
+      , "route": "users/{id}/attach/{type?}"
     },
     {
       "type": "http",
@@ -18,5 +17,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/users/index.js"
+  "scriptFile": "../dist/users_attach/index.js"
 }
